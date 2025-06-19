@@ -1,8 +1,10 @@
-const Input = () => {
+'use client'
+
+import { InputProps } from "@/components/Input/Input.types";
+
+const Input = ({ type, placeholder }: InputProps) => {
     return (
-        <h1>
-            Input Component
-        </h1>
+        <input type={type} placeholder={placeholder}/>
     )
 }
 

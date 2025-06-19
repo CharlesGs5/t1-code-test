@@ -40,3 +40,9 @@ export const FONT = {
         bold: 700,
     },
 };
+
+export const TYPE = {
+    text: 'text',
+    password: 'password',
+    email: 'email'
+}

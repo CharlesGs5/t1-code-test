@@ -9,8 +9,8 @@ export default function Home() {
         <h1 className="text-2xl font-bold mb-4">Demo de componentes</h1>
 
         <Button variant="primary"> Aceptar</Button>
-        <Card/>
-        <Input/>
+        <Card img="../../public/globe.svg" header="This is my header" footer="And this is my footer"/>
+        <Input type="text" placeholder="Write here"/>
         <Modal/>
     </main>
   );
