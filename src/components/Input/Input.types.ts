@@ -1,6 +1,7 @@
 export interface InputProps {
     type: 'text' | 'password' | 'email'
-    status?: string
+    status?: 'default' | 'error' | 'success'
     placeholder: string
     label?: string
+    disabled?: boolean
 }

@@ -1,27 +1,28 @@
-import Image from "next/image";
-import {CardProps} from "@/components/Card/Card.types";
+'use client';
 
+import { CardProps } from './Card.types';
+import {
+    getCardStyle,
+    cardSectionStyle,
+    cardImageStyle,
+} from './Card.styles';
 
-const Card = ({ header, body, footer, img }: CardProps) => {
+const Card = ({
+                  header,
+                  body,
+                  footer,
+                  image,
+                  bordered = true,
+              }: CardProps) => {
     return (
-        <article className="card">
-            <header>
-                <h2>{header}</h2>
-            </header>
+        <div style={getCardStyle(bordered)}>
+            {header && <div style={cardSectionStyle}>{header}</div>}
+            {image && <img src={image} alt="Card image" style={cardImageStyle} />}
 
-            <Image
-                src={img}
-                width={100}
-                height={100}
-                alt="Hot air balloons"/>
-            <div className="content">
-                <p>
-                    {body}
-                </p>
-            </div>
-            <footer>{footer}</footer>
-        </article>
-    )
-}
+            {body && <div style={cardSectionStyle}>{body}</div>}
+            {footer && <div>{footer}</div>}
+        </div>
+    );
+};
 
 export default Card;

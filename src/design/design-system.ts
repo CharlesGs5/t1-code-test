@@ -1,14 +1,15 @@
 export const COLORS = {
-    primary: '#3b82f6',     // azul
-    secondary: '#64748b',   // gris
-    danger: '#ef4444',      // rojo
-    success: '#10b981',     // verde
-    error: '#dc2626',       // rojo oscuro
+    primary: '#3b82f6',
+    secondary: '#64748b',
+    danger: '#ef4444',
+    success: '#10b981',
+    error: '#dc2626',
 
-    text: '#1f2937',         // gris muy oscuro
+    text: '#1f2937',
     background: '#ffffff',
-    disabled: '#9ca3af',     // gris claro
-    border: '#e5e7eb',       // gris borde
+    disabled: '#9ca3af',
+    border: '#e5e7eb',
+    overlay: 'rgba(0,0,0,0.5)'
 };
 
 export const SPACING = {
@@ -41,8 +42,18 @@ export const FONT = {
     },
 };
 
-export const TYPE = {
+export const INPUT_TYPE = {
     text: 'text',
     password: 'password',
     email: 'email'
 }
+
+export const Z_INDEX = {
+    modal: 1000,
+};
+
+export const MODAL_WIDTH = {
+    small: '300px',
+    medium: '500px',
+    large: '700px',
+};
