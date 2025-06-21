@@ -42,12 +42,6 @@ export const FONT = {
     },
 };
 
-export const INPUT_TYPE = {
-    text: 'text',
-    password: 'password',
-    email: 'email'
-}
-
 export const Z_INDEX = {
     modal: 1000,
 };

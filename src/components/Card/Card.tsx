@@ -16,7 +16,7 @@ const Card = ({
               }: CardProps) => {
     return (
         <div style={getCardStyle(bordered)}>
-            {header && <div style={cardSectionStyle}>{header}</div>}
+            {header && <h1 style={cardSectionStyle}>{header}</h1>}
             {image && <img src={image} alt="Card image" style={cardImageStyle} />}
 
             {body && <div style={cardSectionStyle}>{body}</div>}

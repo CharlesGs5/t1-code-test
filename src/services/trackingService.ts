@@ -25,7 +25,7 @@ export const trackInteraction = async (
     }
 };
 
-export const fetchStats = async () => {
+export const getComponentStats = async () => {
     const res = await fetch(`${BASE_URL}/api/components/stats`);
 
     if (!res.ok) {

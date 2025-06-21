@@ -5,7 +5,7 @@ describe('Card component', () => {
     it('renderiza el header, body y footer si se proporcionan', () => {
         render(
             <Card
-                header={<h2>Mi encabezado</h2>}
+                header={<div>Mi encabezado</div>}
                 body={<p>Este es el cuerpo</p>}
                 footer={<span>Este es el pie</span>}
             />

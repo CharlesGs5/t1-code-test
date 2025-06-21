@@ -1,64 +1,101 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import {exportCSV, exportJSON, fetchStats} from '@/services/trackingService';
+import { useRouter } from 'next/navigation';
+import Button from '@/components/Button/Button';
+import { getComponentStats, exportCSV, exportJSON } from '@/services/trackingService';
 
-export default function DashboardPage() {
-    const [stats, setStats] = useState<any[]>([]);
+type Stats = {
+    component: string;
+    variant: string;
+    count: number;
+};
+
+export default function Dashboard() {
+    const router = useRouter();
+    const [stats, setStats] = useState<Stats[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const loadStats = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            router.replace('/login');
+        }
+
+        let isMounted = true;
+
+        const fetchStats = async () => {
             try {
-                const data = await fetchStats();
-                setStats(data);
-            } catch (error) {
-                console.error(error,'Error al cargar estadísticas');
+                const data = await getComponentStats();
+                if (isMounted) {
+                    setStats(data);
+                    setLoading(false);
+                }
+            } catch (err) {
+                console.error('Error fetching stats:', err);
             }
         };
 
-        loadStats();
+        fetchStats();
+        const interval = setInterval(fetchStats, 5000); // cada 5s
 
-        const interval = setInterval(loadStats, 5000); // Actualiza cada 5 segundos
-        return () => clearInterval(interval);
-    }, []);
+        return () => {
+            isMounted = false;
+            clearInterval(interval);
+        };
+    }, [router]);
 
     return (
-        <main className="max-w-2xl mx-auto p-6">
-            <h1 className="text-2xl font-bold mb-4">📊 Estadísticas en tiempo real</h1>
+        <main className="min-h-screen bg-gray-50 px-6 py-8 max-w-screen-lg mx-auto">
+            {/* Header */}
+            <div className="flex justify-between items-center mb-6">
+                <h1 className="text-3xl font-bold text-gray-800">📊 Real-Time Analytics Dashboard</h1>
+                <Button variant="secondary" onClick={() => {
+                    localStorage.removeItem('token');
+                    router.push('/login');
+                }}>
+                    Log out
+                </Button>
+            </div>
 
-            <table className="w-full text-sm border-collapse border">
-                <thead>
-                <tr className="bg-gray-100 text-left">
-                    <th className="border px-2 py-1">Componente</th>
-                    <th className="border px-2 py-1">Variante</th>
-                    <th className="border px-2 py-1">Interacciones</th>
-                </tr>
-                </thead>
-                <tbody>
-                {stats.map((item, idx) => (
-                    <tr key={idx}>
-                        <td className="border px-2 py-1">{item.component}</td>
-                        <td className="border px-2 py-1">{item.variant}</td>
-                        <td className="border px-2 py-1">{item.count}</td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
+            {/* Export Buttons */}
+            <div className="flex gap-4 mb-6">
+                <Button variant="primary" onClick={exportCSV}>Export CSV</Button>
+                <Button variant="secondary" onClick={exportJSON}>Export JSON</Button>
+            </div>
 
-            <button
-                onClick={exportCSV}
-                className="mb-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-            >
-                Exportar CSV
-            </button>
-
-            <button
-                onClick={exportJSON}
-                className="mb-4 ml-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            >
-                Exportar JSON
-            </button>
-
+            {/* Stats Table or Loading */}
+            {loading ? (
+                <p className="text-gray-500">Loading statistics...</p>
+            ) : (
+                <div className="overflow-x-auto bg-white shadow-md rounded-lg">
+                    <table className="min-w-full table-auto">
+                        <thead className="bg-gray-100 text-gray-700">
+                        <tr>
+                            <th className="text-left px-4 py-3 border-b">Component</th>
+                            <th className="text-left px-4 py-3 border-b">Variant</th>
+                            <th className="text-left px-4 py-3 border-b">Usage Count</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {stats.map(({ component, variant, count }, index) => (
+                            <tr key={index} className="hover:bg-gray-50">
+                                <td className="px-4 py-3 border-b">{component}</td>
+                                <td className="px-4 py-3 border-b capitalize">{variant}</td>
+                                <td className="px-4 py-3 border-b font-semibold">{count}</td>
+                            </tr>
+                        ))}
+                        {stats.length === 0 && (
+                            <tr>
+                                <td colSpan={3} className="text-center py-4 text-gray-400">
+                                    No data available yet.
+                                </td>
+                            </tr>
+                        )}
+                        </tbody>
+                    </table>
+                </div>
+            )}
         </main>
     );
 }

@@ -14,8 +14,8 @@ const Input = ({
                }: InputProps) => {
     const id = useId();
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        trackInteraction('Input', 'type'); // o 'input'
+    const handleChange = () => {
+        trackInteraction('Input', 'type');
     };
 
     return (

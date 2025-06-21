@@ -25,7 +25,7 @@ const Modal = ({
     useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = 'hidden';
-            trackInteraction('Modal', 'open'); // 👈 Tracking al abrir
+            trackInteraction('Modal', 'open');
         } else {
             document.body.style.overflow = '';
         }
@@ -39,19 +39,6 @@ const Modal = ({
     const handleClose = () => {
         trackInteraction('Modal', 'close');
         onClose();
-    };
-
-    const getSizeStyle = () => {
-        switch (size) {
-            case 'small':
-                return { maxWidth: '300px' };
-            case 'medium':
-                return { maxWidth: '500px' };
-            case 'large':
-                return { maxWidth: '700px' };
-            default:
-                return {};
-        }
     };
 
     return (
