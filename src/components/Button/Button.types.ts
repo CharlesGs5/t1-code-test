@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 
 export interface ButtonProps {
     variant?: 'primary' | 'secondary' | 'danger';
@@ -6,5 +6,5 @@ export interface ButtonProps {
     loading?: boolean;
     icon?: ReactNode;
     children: ReactNode;
-    onClick?: () => void;
+    onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
 }

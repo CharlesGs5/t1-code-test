@@ -3,6 +3,7 @@
 import React from 'react';
 import { ButtonProps } from './Button.types';
 import { getButtonStyles } from './Button.styles';
+import {trackInteraction} from "@/services/trackingService";
 
 const Button = ({
                     variant = 'primary',
@@ -14,10 +15,15 @@ const Button = ({
                 }: ButtonProps) => {
     const styles = getButtonStyles(variant, disabled);
 
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        trackInteraction('Button', 'click', variant);
+        onClick?.(e);
+    };
+
     return (
         <button
             style={styles}
-            onClick={onClick}
+            onClick={handleClick}
             disabled={disabled || loading}
         >
             {loading ? 'Cargando...' : (

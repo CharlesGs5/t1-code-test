@@ -10,6 +10,7 @@ import {
     headerStyle,
     overlayStyle
 } from "@/components/Modal/Modal.styles";
+import {trackInteraction} from "@/services/trackingService";
 
 const Modal = ({
                    isOpen,
@@ -24,6 +25,7 @@ const Modal = ({
     useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = 'hidden';
+            trackInteraction('Modal', 'open'); // 👈 Tracking al abrir
         } else {
             document.body.style.overflow = '';
         }
@@ -33,6 +35,11 @@ const Modal = ({
     }, [isOpen]);
 
     if (!isOpen) return null;
+
+    const handleClose = () => {
+        trackInteraction('Modal', 'close');
+        onClose();
+    };
 
     const getSizeStyle = () => {
         switch (size) {
@@ -48,7 +55,7 @@ const Modal = ({
     };
 
     return (
-        <div role="dialog" aria-modal="true" style={overlayStyle} onClick={onClose}>
+        <div role="dialog" aria-modal="true" style={overlayStyle} onClick={handleClose}>
             <div style={getModalContainerStyle(size)} onClick={(e) => e.stopPropagation()}>
                 {image && <img src={image} alt="Modal visual" style={{ width: '100%' }} />}
 
@@ -56,7 +63,7 @@ const Modal = ({
                     {header && (
                         <div style={headerStyle}>
                             <div>{header}</div>
-                            <button onClick={onClose} style={closeButtonStyle}>
+                            <button onClick={handleClose} style={closeButtonStyle}>
                                 ×
                             </button>
                         </div>

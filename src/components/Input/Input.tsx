@@ -2,7 +2,8 @@
 
 import { InputProps } from './Input.types';
 import { getInputStyle } from './Input.styles';
-import { useId } from 'react';
+import React, { useId } from 'react';
+import {trackInteraction} from "@/services/trackingService";
 
 const Input = ({
                    type,
@@ -12,6 +13,10 @@ const Input = ({
                    status = 'default',
                }: InputProps) => {
     const id = useId();
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        trackInteraction('Input', 'type'); // o 'input'
+    };
 
     return (
         <div style={{ width: '100%' }}>
@@ -28,6 +33,7 @@ const Input = ({
                 disabled={disabled}
                 style={getInputStyle(status, disabled)}
                 aria-invalid={status === 'error'}
+                onChange={handleChange}
             />
         </div>
     );
