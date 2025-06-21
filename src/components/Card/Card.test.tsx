@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import Card from './Card';
 
 describe('Card component', () => {
-    it('renderiza el header, body y footer si se proporcionan', () => {
+    it('renders header, body, and footer content', () => {
         render(
             <Card
                 header={<div>Mi encabezado</div>}
@@ -16,13 +16,13 @@ describe('Card component', () => {
         expect(screen.getByText('Este es el pie')).toBeInTheDocument();
     });
 
-    it('muestra la imagen si se proporciona', () => {
+    it('displays the image if provided', () => {
         render(<Card image="/prueba.jpg" />);
         const img = screen.getByRole('img');
         expect(img).toHaveAttribute('src', '/prueba.jpg');
     });
 
-    it('renderiza sin borde si la prop "bordered" es false', () => {
+    it('renders without errors when optional props are missing', () => {
         const { container } = render(<Card bordered={false} body="Sin borde" />);
         const card = container.firstChild as HTMLElement;
         expect(card).toHaveStyle('border: none');

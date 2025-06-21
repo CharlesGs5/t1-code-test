@@ -2,12 +2,12 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import Modal from './Modal';
 
 describe('Modal component', () => {
-    it('no se muestra si isOpen es false', () => {
+    it('does not render the modal when isOpen is false', () => {
         render(<Modal isOpen={false} onClose={() => {}} />);
         expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
 
-    it('renderiza si isOpen es true', () => {
+    it('renders the modal when isOpen is true', () => {
         render(
             <Modal
                 isOpen
@@ -20,7 +20,7 @@ describe('Modal component', () => {
         expect(screen.getByText('¿Estás seguro?')).toBeInTheDocument();
     });
 
-    it('llama onClose al hacer clic en el overlay', () => {
+    it('calls onClose when clicking the overlay', () => {
         const onClose = jest.fn();
 
         const { container } = render(

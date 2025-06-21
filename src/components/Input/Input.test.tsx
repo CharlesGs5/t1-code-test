@@ -2,19 +2,19 @@ import { render, screen } from '@testing-library/react';
 import Input from './Input';
 
 describe('Input component', () => {
-    it('renderiza correctamente con los props mínimos', () => {
+    it('renders the input correctly with minimum props', () => {
         render(<Input type="text" placeholder="Escribe aquí" />);
         const input = screen.getByPlaceholderText('Escribe aquí');
         expect(input).toBeInTheDocument();
     });
 
-    it('muestra el label si se proporciona', () => {
+    it('displays the label if provided', () => {
         render(<Input type="text" placeholder="Correo" label="Email" />);
         const label = screen.getByText('Email');
         expect(label).toBeInTheDocument();
     });
 
-    it('aplica el estado de error visualmente', () => {
+    it('applies success styles when status is "error"', () => {
         render(
             <Input
                 type="text"
