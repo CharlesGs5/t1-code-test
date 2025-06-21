@@ -25,7 +25,7 @@ export default function Dashboard() {
         fetchStats();
         const interval = setInterval(fetchStats, 5000);
         return () => clearInterval(interval);
-    }, []);
+    }, [router]);
 
     const fetchStats = async () => {
         try {
